@@ -261,7 +261,7 @@ const HomePage = () => {
                   <h3 className="text-lg sm:text-xl font-semibold mb-2">البريد الإلكتروني</h3>
                   <p className="text-muted-foreground mb-2 text-sm sm:text-base">راسلنا عبر البريد الإلكتروني</p>
                   <a href="mailto:info@mocklyai.com" className="text-primary hover:text-primary/80 transition-colors text-sm sm:text-base font-medium">
-                    info@mocklyai.com
+                    mocklyai10@gmail.com
                   </a>
                 </div>
               </div>

@@ -5,6 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import EmailVerificationPage from "./pages/EmailVerificationPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +21,10 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/verify-email" element={<EmailVerificationPage />} />
+              <Route path="/register" element={<RegisterPage />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>

@@ -84,7 +84,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 space-x-reverse">
                 <Mail className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">info@mocklyai.com</span>
+                <span className="text-sm text-muted-foreground">mocklyai10@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3 space-x-reverse">
                 <Phone className="h-4 w-4 text-primary" />
