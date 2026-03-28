@@ -159,87 +159,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-4 bg-muted/30">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              ماذا يقول عملاؤنا
-            </h2>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="feature-card">
-              <CardContent className="p-8">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 text-lg">
-                  "ساعدتني المنصة كثيراً في التحضير لمقابلات العمل. الأسئلة واقعية والتحليل مفيد جداً."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-primary font-semibold">أ</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">أحمد محمد</h4>
-                    <p className="text-muted-foreground">مطور برمجيات</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="feature-card">
-              <CardContent className="p-8">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 text-lg">
-                  "تجربة رائعة! الذكاء الاصطناعي يعطي نصائح دقيقة ومفيدة للتحسين."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-success font-semibold">ف</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">فاطمة أحمد</h4>
-                    <p className="text-muted-foreground">مديرة تسويق</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="feature-card">
-              <CardContent className="p-8">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 text-lg">
-                  "أفضل منصة لتدريب المقابلات. ساعدتني في الحصول على وظيفة أحلامي."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-brand-secondary/10 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-brand-secondary font-semibold">خ</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">خالد السالم</h4>
-                    <p className="text-muted-foreground">محلل مالي</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4">
+      <section id="contact" className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
