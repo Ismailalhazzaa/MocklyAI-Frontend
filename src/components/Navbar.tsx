@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User, LogOut } from 'lucide-react';
+import { Menu, X, User, LogOut, Loader2 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import axiosInstance from '@/api/axiosInstance';
+import { useToast } from '@/hooks/use-toast';
 
 
 
@@ -14,8 +16,11 @@ interface NavbarProps {
 const Navbar = ({ isAuthenticated = false, userName }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const { toast } = useToast();
 
 
   useEffect(() => {
@@ -67,6 +72,43 @@ const Navbar = ({ isAuthenticated = false, userName }: NavbarProps) => {
     }
   };
 
+  // ─── Logout ───
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+
+    // 1. Snapshot token then immediately clear local state
+    //    → request interceptor won't attach token to any new requests
+    let token: string | null = null;
+    try {
+      const userData = localStorage.getItem('user');
+      if (userData) token = JSON.parse(userData)?.token ?? null;
+    } catch { /* ignore */ }
+
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('mockly_session');
+
+    // 2. Notify backend to invalidate the token in the DB
+    try {
+      if (token) {
+        await axiosInstance.get('/users/logout', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+    } catch { /* local state already cleared — enough to prevent further requests */ }
+
+    // 3. Show success toast and wait briefly so the user sees it before redirect
+    toast({
+      title: 'تم تسجيل الخروج بنجاح',
+      description: 'نراك قريباً! 👋',
+      duration: 2000,
+    });
+
+    // 4. Short delay so the toast renders, then redirect
+    await new Promise(resolve => setTimeout(resolve, 600));
+    setIsLoggingOut(false);
+    navigate('/login', { replace: true });
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'navbar-glass shadow-lg' : 'bg-transparent'
@@ -107,14 +149,18 @@ const Navbar = ({ isAuthenticated = false, userName }: NavbarProps) => {
                     <User className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm text-foreground">{userName || 'المستخدم'}</span>
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                    onClick={() => window.location.href = '/'}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled={isLoggingOut}
+                    className="text-destructive hover:text-destructive hover:bg-destructive/10 flex items-center gap-1"
+                    onClick={handleLogout}
                   >
-                    <LogOut className="h-4 w-4 ltr:mr-1 rtl:ml-1" />
-                    تسجيل خروج
+                    {isLoggingOut
+                      ? <Loader2 className="h-4 w-4 animate-spin" />
+                      : <LogOut className="h-4 w-4 ltr:mr-1 rtl:ml-1" />
+                    }
+                    {isLoggingOut ? 'جاري الخروج...' : 'تسجيل خروج'}
                   </Button>
                 </div>
               </>
@@ -183,13 +229,17 @@ const Navbar = ({ isAuthenticated = false, userName }: NavbarProps) => {
                   <User className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm text-foreground">{userName || 'المستخدم'}</span>
                 </div>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={isLoggingOut}
                   className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  onClick={() => window.location.href = '/'}
+                  onClick={handleLogout}
                 >
-                  <LogOut className="h-4 w-4" />
+                  {isLoggingOut
+                    ? <Loader2 className="h-4 w-4 animate-spin" />
+                    : <LogOut className="h-4 w-4" />
+                  }
                 </Button>
               </>
             )}
@@ -264,13 +314,20 @@ const Navbar = ({ isAuthenticated = false, userName }: NavbarProps) => {
                     <User className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm text-popover-foreground">{userName || 'المستخدم'}</span>
                   </div>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
+                    disabled={isLoggingOut}
                     className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
-                    onClick={() => window.location.href = '/'}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleLogout();
+                    }}
                   >
-                    <LogOut className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-                    تسجيل خروج
+                    {isLoggingOut
+                      ? <Loader2 className="h-4 w-4 ltr:mr-2 rtl:ml-2 animate-spin" />
+                      : <LogOut className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                    }
+                    {isLoggingOut ? 'جاري الخروج...' : 'تسجيل خروج'}
                   </Button>
                 </div>
               )}

@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import RegisterPage from "./pages/RegisterPage";
+import SetupPage from "./pages/SetupPage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/verify-email" element={<EmailVerificationPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/setup" element={<SetupPage />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
