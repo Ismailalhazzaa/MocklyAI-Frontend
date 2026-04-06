@@ -286,19 +286,6 @@ const QuestionPage = () => {
     }
   };
 
-  // ─── End session early ───
-  const handleEndSession = () => {
-    sessionStorage.removeItem(SESSION_STORAGE_KEY);
-    navigate('/summary', {
-      state: {
-        sessionId,
-        sessionData: sessionMeta,
-        questionsAnswered: currentQuestionNumber - 1,
-        endedEarly: true,
-      }
-    });
-  };
-
   // ─── Loading screen ───
   if (isLoadingQuestion) {
     return (
@@ -336,13 +323,6 @@ const QuestionPage = () => {
                   <span>{formatTime(timeSpent)}</span>
                 </div>
               </div>
-              <Button
-                variant="outline"
-                onClick={handleEndSession}
-                className="text-destructive border-destructive hover:bg-destructive hover:text-white"
-              >
-                إنهاء الجلسة
-              </Button>
             </div>
             <Progress value={progress} className="h-2" />
           </div>
