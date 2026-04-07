@@ -11,6 +11,7 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import RegisterPage from "./pages/RegisterPage";
 import SetupPage from "./pages/SetupPage";
 import QuestionPage from "./pages/QuestionPage";
+import AnalysisPage from "./pages/AnalysisPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/setup" element={<SetupPage />} />
               <Route path="/question" element={<QuestionPage />} />
+              <Route path="/analysis" element={<AnalysisPage />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
