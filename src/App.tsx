@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage";
 import SetupPage from "./pages/SetupPage";
 import QuestionPage from "./pages/QuestionPage";
 import AnalysisPage from "./pages/AnalysisPage";
+import SessionSummaryPage from "./pages/SessionSummaryPage";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/setup" element={<SetupPage />} />
               <Route path="/question" element={<QuestionPage />} />
               <Route path="/analysis" element={<AnalysisPage />} />
+              <Route path="/summary" element={<SessionSummaryPage />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
