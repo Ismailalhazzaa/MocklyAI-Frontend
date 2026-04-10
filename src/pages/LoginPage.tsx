@@ -185,17 +185,6 @@ const LoginPage = () => {
               </form>
             </CardContent>
           </Card>
-
-          {/* Demo Credentials */}
-          <Card className="mt-6 bg-card-accent animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <CardContent className="p-4">
-              <h3 className="text-sm font-medium text-foreground mb-2">حساب تجريبي:</h3>
-              <p className="text-xs text-muted-foreground">
-                البريد الإلكتروني: user@example.com<br />
-                كلمة المرور: password
-              </p>
-            </CardContent>
-          </Card>
         </div>
       </div>
 
