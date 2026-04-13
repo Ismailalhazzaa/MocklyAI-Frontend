@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useToast } from '@/hooks/use-toast';
+import axiosInstance from '@/api/axiosInstance';
 
 import { 
   Brain, 
@@ -18,11 +21,56 @@ import {
   MessageSquare,
   Check,
   Mail,
-  Phone
+  Phone,
+  Loader2,
+  CheckCircle2
 } from 'lucide-react';
 
 const HomePage = () => {
+  const { toast } = useToast();
 
+  // ─── Feedback form state ───────────────────────────────────────────────
+  const [feedbackName, setFeedbackName]       = useState('');
+  const [feedbackEmail, setFeedbackEmail]     = useState('');
+  const [feedbackText, setFeedbackText]       = useState('');
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [feedbackSent, setFeedbackSent]       = useState(false);
+
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!feedbackName.trim() || !feedbackEmail.trim() || !feedbackText.trim()) {
+      toast({
+        title: 'جميع الحقول مطلوبة',
+        description: 'يرجى ملء الاسم والبريد الإلكتروني والرسالة',
+        variant: 'destructive',
+      });
+      return;
+    }
+    setFeedbackLoading(true);
+    try {
+      const res = await axiosInstance.post('/users/feedback', {
+        name: feedbackName.trim(),
+        email: feedbackEmail.trim(),
+        feedbacktext: feedbackText.trim(),
+      });
+      setFeedbackSent(true);
+      setFeedbackName('');
+      setFeedbackEmail('');
+      setFeedbackText('');
+      toast({
+        title: 'تم إرسال رسالتك ✅',
+        description: res.data.data,
+      });
+    } catch (err: any) {
+      toast({
+        title: 'فشل الإرسال',
+        description: err?.response?.data?.message || 'حدث خطأ أثناء إرسال الرسالة، حاول مرة أخرى',
+        variant: 'destructive',
+      });
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -214,45 +262,71 @@ const HomePage = () => {
             {/* Contact Form */}
             <Card className="feature-card">
               <CardContent className="p-6 sm:p-8">
-                <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-center">أرسل لنا رسالة</h3>
-                <form className="space-y-4 sm:space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      الاسم الكامل
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm sm:text-base"
-                      placeholder="أدخل اسمك الكامل"
-                    />
+                {feedbackSent ? (
+                  <div className="flex flex-col items-center justify-center py-10 text-center">
+                    <CheckCircle2 className="h-16 w-16 text-success mb-4" />
+                    <h3 className="text-xl font-bold text-foreground mb-2">تم إرسال رسالتك!</h3>
+                    <p className="text-muted-foreground mb-6">سيتم التواصل معك قريباً، نشكرك على ثقتك ❤️</p>
+                    <Button variant="outline" onClick={() => setFeedbackSent(false)}>
+                      إرسال رسالة أخرى
+                    </Button>
                   </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      البريد الإلكتروني
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm sm:text-base"
-                      placeholder="أدخل بريدك الإلكتروني"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      الرسالة
-                    </label>
-                    <textarea
-                      rows={4}
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none text-sm sm:text-base"
-                      placeholder="اكتب رسالتك هنا..."
-                    />
-                  </div>
-                  
-                  <Button type="submit" className="w-full btn-hero">
-                    إرسال الرسالة
-                  </Button>
-                </form>
+                ) : (
+                  <>
+                    <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-center">أرسل لنا رسالة</h3>
+                    <form className="space-y-4 sm:space-y-6" onSubmit={handleFeedbackSubmit}>
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          الاسم الكامل
+                        </label>
+                        <input
+                          type="text"
+                          value={feedbackName}
+                          onChange={(e) => setFeedbackName(e.target.value)}
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm sm:text-base"
+                          placeholder="أدخل اسمك الكامل"
+                          disabled={feedbackLoading}
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          البريد الإلكتروني
+                        </label>
+                        <input
+                          type="email"
+                          value={feedbackEmail}
+                          onChange={(e) => setFeedbackEmail(e.target.value)}
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm sm:text-base"
+                          placeholder="أدخل بريدك الإلكتروني"
+                          disabled={feedbackLoading}
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          الرسالة
+                        </label>
+                        <textarea
+                          rows={4}
+                          value={feedbackText}
+                          onChange={(e) => setFeedbackText(e.target.value)}
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none text-sm sm:text-base"
+                          placeholder="اكتب رسالتك هنا..."
+                          disabled={feedbackLoading}
+                        />
+                      </div>
+                      
+                      <Button type="submit" className="w-full btn-hero" disabled={feedbackLoading}>
+                        {feedbackLoading ? (
+                          <><Loader2 className="h-4 w-4 animate-spin ml-2" />جارٍ الإرسال...</>
+                        ) : (
+                          'إرسال الرسالة'
+                        )}
+                      </Button>
+                    </form>
+                  </>
+                )}
               </CardContent>
             </Card>
           </div>

@@ -13,6 +13,9 @@ import SetupPage from "./pages/SetupPage";
 import QuestionPage from "./pages/QuestionPage";
 import AnalysisPage from "./pages/AnalysisPage";
 import SessionSummaryPage from "./pages/SessionSummaryPage";
+import HistoryPage from "./pages/HistoryPage";
+import ProfilePage from "./pages/ProfilePage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +36,9 @@ const App = () => (
               <Route path="/question" element={<QuestionPage />} />
               <Route path="/analysis" element={<AnalysisPage />} />
               <Route path="/summary" element={<SessionSummaryPage />} />
+              <Route path="/history" element={<HistoryPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>

@@ -39,7 +39,6 @@ const Navbar = ({ isAuthenticated = false, userName }: NavbarProps) => {
   ];
 
   const authLinks = [
-    { name: 'الرئيسية', href: '/', isHash: false },
     { name: 'لوحة التحكم', href: '/dashboard', isHash: false },
     { name: 'سجل الجلسات', href: '/history', isHash: false },
     { name: 'الأسئلة المتكررة', href: '/faq', isHash: false },
