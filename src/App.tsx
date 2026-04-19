@@ -15,6 +15,9 @@ import AnalysisPage from "./pages/AnalysisPage";
 import SessionSummaryPage from "./pages/SessionSummaryPage";
 import HistoryPage from "./pages/HistoryPage";
 import ProfilePage from "./pages/ProfilePage";
+import DashboardPage from "./pages/DashboardPage";
+import FAQPage from "./pages/FAQPage";
+import LeaderboardPage from "./pages/LeaderboardPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +41,9 @@ const App = () => (
               <Route path="/summary" element={<SessionSummaryPage />} />
               <Route path="/history" element={<HistoryPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
