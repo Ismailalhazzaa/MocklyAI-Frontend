@@ -124,6 +124,19 @@ const SessionSummaryPage = () => {
         const session: SessionSummary = response.data.data;
         setSummaryData(session);
 
+        // ─── إشعار النتيجة ───
+        if (session.score > 50) {
+          toast({
+            title: 'نتيجة قوية 🔥',
+            description: 'أنت معلم ونحن منك نتعلم، نتيجة مميزة جداً ❤️👌',
+          });
+        } else {
+          toast({
+            title: 'لا تيأس ❤️',
+            description: 'نتيجتك جيدة، تابع واستمر، لا تتوقف أبداً 💕',
+          });
+        }
+
         // Clear session state from sessionStorage
         sessionStorage.removeItem('currentQuestionNumber');
 

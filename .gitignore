@@ -22,3 +22,5 @@ bun.lockb
 *.njsproj
 *.sln
 *.sw?
+firebase.js
+firebase-messaging-sw.js

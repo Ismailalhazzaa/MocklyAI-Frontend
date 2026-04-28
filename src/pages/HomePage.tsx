@@ -92,9 +92,6 @@ const HomePage = () => {
                   ابدأ التدريب الآن
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="btn-outline-hero">
-                تعرف على المميزات
-              </Button>
             </div>
           </div>
         </div>
@@ -345,7 +342,7 @@ const HomePage = () => {
               انضم إلى آلاف المحترفين الذين حسنوا من فرصهم الوظيفية
             </p>
             <Link to="/register">
-              <Button size="lg" variant="secondary" className="text-primary hover:text-primary/90">
+              <Button size="lg" variant="secondary" className="btn-hero">
                 ابدأ مجاناً الآن
               </Button>
             </Link>
