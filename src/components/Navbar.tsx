@@ -72,41 +72,37 @@ const Navbar = ({ isAuthenticated = false, userName }: NavbarProps) => {
   };
 
   // ─── Logout ───
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
+const handleLogout = async () => {
+  setIsLoggingOut(true);
 
-    // 1. Snapshot token then immediately clear local state
-    //    → request interceptor won't attach token to any new requests
-    let token: string | null = null;
-    try {
-      const userData = localStorage.getItem('user');
-      if (userData) token = JSON.parse(userData)?.token ?? null;
-    } catch { /* ignore */ }
+  let token: string | null = null;
+  try {
+    const userData = localStorage.getItem('user');
+    if (userData) token = JSON.parse(userData)?.token ?? null;
+  } catch { /* ignore */ }
 
-    localStorage.removeItem('user');
-    sessionStorage.removeItem('mockly_session');
+  try {
+    if (token) {
+      await axiosInstance.get('/users/logout', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    }
+  } catch {  }
 
-    // 2. Notify backend to invalidate the token in the DB
-    try {
-      if (token) {
-        await axiosInstance.get('/users/logout', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      }
-    } catch { /* local state already cleared — enough to prevent further requests */ }
+  toast({
+    title: 'تم تسجيل الخروج بنجاح',
+    description: 'نراك قريباً! 👋',
+    duration: 3000,
+  });
 
-    // 3. Show success toast and wait briefly so the user sees it before redirect
-    toast({
-      title: 'تم تسجيل الخروج بنجاح',
-      description: 'نراك قريباً! 👋',
-      duration: 2000,
-    });
+  await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // 4. Short delay so the toast renders, then redirect
-    await new Promise(resolve => setTimeout(resolve, 600));
-    setIsLoggingOut(false);
-    navigate('/login', { replace: true });
-  };
+
+  localStorage.removeItem('user');
+  sessionStorage.removeItem('mockly_session');
+  setIsLoggingOut(false);
+  navigate('/login', { replace: true });
+};
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${

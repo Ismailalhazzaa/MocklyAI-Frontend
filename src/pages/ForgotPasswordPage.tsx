@@ -271,14 +271,6 @@ const ForgotPasswordPage = () => {
                       إعادة إرسال الرمز
                     </button>
                   </div>
-
-                  {/* Demo OTP hint */}
-                  <Card className="bg-card-accent">
-                    <CardContent className="p-4">
-                      <h3 className="text-sm font-medium text-foreground mb-1">رمز تجريبي:</h3>
-                      <p className="text-xs text-muted-foreground">رمز التحقق: 123456</p>
-                    </CardContent>
-                  </Card>
                 </form>
               )}
 
