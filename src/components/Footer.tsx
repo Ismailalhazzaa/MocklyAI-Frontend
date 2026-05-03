@@ -110,7 +110,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 MocklyAI. جميع الحقوق محفوظة.
+            © 2026 MocklyAI. جميع الحقوق محفوظة.
           </p>
         </div>
       </div>
