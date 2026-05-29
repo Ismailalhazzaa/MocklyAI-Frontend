@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:4000/api',
+  baseURL: 'https://mocklyai-backend-eeetgjbsdedyfaex.swedencentral-01.azurewebsites.net',
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
