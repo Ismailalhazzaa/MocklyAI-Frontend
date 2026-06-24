@@ -54,7 +54,7 @@ const AnalysisPage = () => {
   // ─── Destructure state from QuestionPage ───
   const {
     sessionId,
-    sessionData,              // full session meta (sessionId, field, questionCount, questionTypes, difficulty)
+    sessionData,
     currentQuestionNumber,
     questionData,
     analysisData: passedAnalysisData,
@@ -99,12 +99,8 @@ const AnalysisPage = () => {
   // ─── Next question: navigate back to QuestionPage ───
   const handleNextQuestion = () => {
     const nextNumber = (currentQuestionNumber ?? 1) + 1;
-
-    // Pass sessionData (which has sessionId inside) PLUS the next question number explicitly
-    // QuestionPage reads sessionId from sessionData OR from top-level, both work
     navigate('/question', {
       state: {
-        // Spread all session meta so QuestionPage can rebuild sessionMeta
         ...(sessionData ?? {}),
         sessionId:            sessionId ?? sessionData?.sessionId,
         _nextQuestionNumber:  nextNumber,
@@ -242,7 +238,7 @@ const AnalysisPage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {analysisData.strengths.length > 0 ? (
+                {(analysisData.strengths?.length ?? 0) > 0 ? (
                   <ul className="space-y-3">
                     {analysisData.strengths.map((s, i) => (
                       <li key={i} className="flex items-start space-x-3 space-x-reverse">
@@ -266,7 +262,7 @@ const AnalysisPage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {analysisData.improvements.length > 0 ? (
+                {(analysisData.improvements?.length ?? 0) > 0 ? (
                   <ul className="space-y-3">
                     {analysisData.improvements.map((imp, i) => (
                       <li key={i} className="flex items-start space-x-3 space-x-reverse">
